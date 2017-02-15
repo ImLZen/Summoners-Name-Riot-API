@@ -17,8 +17,6 @@ function inici(){
 function getNameSummoner(){
     var jugador = nom_invocador.value;
     
-    var a = new XMLHttpRequest();
-    
     $.ajax({
                 
         headers: {
@@ -29,9 +27,10 @@ function getNameSummoner(){
         },
         
         type: 'GET',
-        url: "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/"+jugador+"?api_key="+API_KEY,
-        dataType: 'jsonp',
-
+        url: "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/reaktez?api_key="+API_KEY,
+        dataType: "jsonp",
+        jsonpCallback: 'callback',
+        
         success: function(data){
             
             var token = data.authResponse.accessToken;
@@ -58,6 +57,10 @@ function getNameSummoner(){
         },
         error: function(data){
             console.log("Error");
+        },
+        complete: function(data){
+    console.log(data);
+        
         }
         
         
@@ -65,6 +68,7 @@ function getNameSummoner(){
         
         
     });
+    
     
     
 }
