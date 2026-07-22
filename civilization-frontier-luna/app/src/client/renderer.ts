@@ -105,12 +105,15 @@ export class Renderer {
     }
   }
 
-  /** Dibuja el frame completo para el jugador humano. */
+  /** Dibuja el frame completo para el jugador humano local. */
   draw(ctx: CanvasRenderingContext2D, camera: Camera, viewW: number, viewH: number, opts: DrawOptions): void {
     const state = this.state;
     const { cols, rows } = state.config;
-    const visible = computeVisibility(state, 0);
-    const human = state.players[0];
+    const humanId = opts.humanId ?? 0;
+    // En partidas de red la visibilidad llega ya filtrada del servidor; en
+    // local se calcula aquí con la misma función que usa la simulación.
+    const visible = opts.visibility ?? computeVisibility(state, humanId);
+    const human = state.players[humanId];
     const spawnMode = state.phase === "spawn_selection" || opts.respawnMode;
 
     // Actualizar memoria del cliente con lo visible ahora.
@@ -121,7 +124,7 @@ export class Renderer {
         // (GDD §3: el mapa está inicialmente abierto, sin recursos exactos).
         mem.knownOwner[i] = state.tiles[i].owner;
         const sid = state.tiles[i].structure;
-        if (sid >= 0 && state.structures[sid].hp > 0 && (visible[i] || spawnMode)) {
+        if (sid >= 0 && state.structures[sid] && state.structures[sid].hp > 0 && (visible[i] || spawnMode)) {
           mem.knownStructKind[i] = STRUCT_KINDS.indexOf(state.structures[sid].kind);
           mem.knownStructOwner[i] = state.structures[sid].owner;
         } else {
@@ -179,15 +182,18 @@ export class Renderer {
 
     // 4. Aristas de red conocidas (propias siempre; enemigas si algún extremo visible).
     for (const edge of state.edges) {
-      const a = state.structures[edge.a];
-      const b = state.structures[edge.b];
-      if (!a || !b) continue;
+      const aTile = edge.aTile ?? state.structures[edge.a]?.tile;
+      const bTile = edge.bTile ?? state.structures[edge.b]?.tile;
+      if (aTile === undefined || bTile === undefined) continue;
       const known =
-        edge.owner === 0 || visible[a.tile] || visible[b.tile] || (human.explored[a.tile] && human.explored[b.tile]);
-      if (!known || (a.hp <= 0 && b.hp <= 0 && edge.status === "cut")) continue;
-      if (edge.status === "cut" && edge.owner !== 0) continue;
-      const [ax, ay] = xyOf(a.tile, cols);
-      const [bx, by] = xyOf(b.tile, cols);
+        edge.owner === humanId ||
+        visible[aTile] ||
+        visible[bTile] ||
+        (human.explored[aTile] && human.explored[bTile]);
+      if (!known) continue;
+      if (edge.status === "cut" && edge.owner !== humanId) continue;
+      const [ax, ay] = xyOf(aTile, cols);
+      const [bx, by] = xyOf(bTile, cols);
       const style = EDGE_STYLE[edge.kind];
       ctx.beginPath();
       ctx.moveTo(ax * TILE + TILE / 2, ay * TILE + TILE / 2);
@@ -232,7 +238,7 @@ export class Renderer {
     // 6. Rovers visibles.
     for (const rover of state.rovers) {
       const t = Math.floor(rover.y) * cols + Math.floor(rover.x);
-      if (rover.owner !== 0 && !visible[t]) continue;
+      if (rover.owner !== humanId && !visible[t]) continue;
       const px = rover.x * TILE;
       const py = rover.y * TILE;
       ctx.fillStyle = state.players[rover.owner].color;
@@ -318,6 +324,10 @@ export interface DrawOptions {
   respawnMode: boolean;
   /** en spawn no se revelan depósitos exactos */
   revealDeposits: boolean;
+  /** id del jugador humano de este cliente (0 en local) */
+  humanId?: number;
+  /** visibilidad ya filtrada por el servidor (partidas de red) */
+  visibility?: Uint8Array | null;
 }
 
 /** Siluetas inequívocas por estructura (GDD §6) en vector. */

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.01.1-alpha — 2026-07-22
+
+- Multijugador privado 2–16 con servidor autoritativo WebSocket (`npm run server`): salas con código de 5 letras, lobby, anfitrión, reconexión por nombre.
+- El servidor ejecuta el tick, valida todos los comandos (reescribe el `playerId` por el del socket) y envía snapshots delta filtrados por la niebla de cada jugador; la semilla del mapa nunca viaja al cliente.
+- Núcleo con soporte multi-humano: la partida arranca cuando todos los humanos han alunizado; los bots se colocan después.
+- Cliente con espejo de estado en red: mismo renderer y HUD para local y multijugador; sin simulación en el navegador → sin divergencia posible.
+- 6 tests nuevos (27 en total): niebla verificada en el mensaje de red, partida completa con 16 humanos, anticheat, consistencia entre espejos y reconexión; verificación end-to-end con servidor real y dos navegadores.
+
 ## 0.01.0-alpha — 2026-07-22
 
 - Implementado el vertical slice jugable en `app/` (TypeScript + Vite + Vitest, Canvas 2D): ver ADR 0007.

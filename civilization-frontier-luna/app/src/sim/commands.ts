@@ -5,7 +5,7 @@
  */
 import type { Command, CommandResult, MatchState } from "./types";
 import { EDGE_SABOTAGE_DAMAGE, SABOTAGE_COST_ENERGY, STRUCTURES } from "./constants";
-import { isValidSpawn, landPlayer, placeBots, pushEvent, rngOf, saveRng } from "./match";
+import { allHumansLanded, isValidSpawn, landPlayer, placeBots, pushEvent, rngOf, saveRng } from "./match";
 import { addEdge, validateEdge } from "./network";
 import { attackTile } from "./territory";
 import { addStructure } from "./match";
@@ -20,11 +20,17 @@ export function applyCommand(state: MatchState, cmd: Command): CommandResult {
   switch (cmd.type) {
     case "select_spawn": {
       if (state.phase !== "spawn_selection") return { ok: false, reason: "La partida ya ha empezado" };
+      if (!p.human) return { ok: false, reason: "Solo humanos eligen spawn manualmente" };
+      if (p.alive) return { ok: false, reason: "Ya has alunizado" };
       if (!isValidSpawn(state, cmd.tile, cmd.playerId)) return { ok: false, reason: "Punto de alunizaje no válido" };
       landPlayer(state, cmd.playerId, cmd.tile, false);
-      placeBots(state);
-      state.phase = "running";
-      pushEvent(state, "Has alunizado. Funda tu colonia: energía y oxígeno primero.", true, cmd.playerId);
+      pushEvent(state, `${p.name} ha alunizado.`, false, -1);
+      // La partida arranca cuando todos los humanos han alunizado.
+      if (allHumansLanded(state)) {
+        placeBots(state);
+        state.phase = "running";
+        pushEvent(state, "Colonización iniciada. Energía y oxígeno primero.", true, -1);
+      }
       return { ok: true };
     }
 

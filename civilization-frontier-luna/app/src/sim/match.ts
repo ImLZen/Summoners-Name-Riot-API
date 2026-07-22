@@ -34,6 +34,7 @@ export function defaultConfig(seed: number): MatchConfig {
     seed,
     cols: DEFAULT_COLS,
     rows: DEFAULT_ROWS,
+    humanCount: 1,
     botCount: 7,
     targetMinutes: MATCH_CUTOFF_MINUTES,
     victoryThreshold: VICTORY_THRESHOLD,
@@ -75,7 +76,7 @@ function createPlayer(id: number, name: string, human: boolean, archetype: BotAr
   };
 }
 
-export function createMatch(config: MatchConfig): MatchState {
+export function createMatch(config: MatchConfig, humanNames: string[] = []): MatchState {
   const rng = createRng(config.seed);
   const tiles = generateMap(rng, config.cols, config.rows);
   const state: MatchState = {
@@ -96,13 +97,21 @@ export function createMatch(config: MatchConfig): MatchState {
     winner: -1,
   };
   const tileCount = config.cols * config.rows;
-  state.players.push(createPlayer(0, "Tú", true, null, tileCount));
+  const humans = Math.max(1, config.humanCount);
+  for (let h = 0; h < humans; h++) {
+    state.players.push(createPlayer(h, humanNames[h] ?? (humans === 1 ? "Tú" : `Colono ${h + 1}`), true, null, tileCount));
+  }
   for (let b = 0; b < config.botCount; b++) {
     state.players.push(
-      createPlayer(b + 1, BOT_NAMES[b % BOT_NAMES.length], false, ARCHETYPES[b % ARCHETYPES.length], tileCount),
+      createPlayer(humans + b, BOT_NAMES[b % BOT_NAMES.length], false, ARCHETYPES[b % ARCHETYPES.length], tileCount),
     );
   }
   return state;
+}
+
+/** ¿Han alunizado ya todos los humanos? (condición de arranque) */
+export function allHumansLanded(state: MatchState): boolean {
+  return state.players.every((p) => !p.human || p.alive);
 }
 
 export function rngOf(state: MatchState): Rng {
@@ -131,11 +140,12 @@ export function isValidSpawn(state: MatchState, tile: number, playerId: number):
   return true;
 }
 
-/** id (índice en structures) del primer hábitat vivo del jugador, o -1. */
+/** id (índice en structures) del primer hábitat vivo del jugador, o -1.
+ * El array puede ser disperso en el espejo de red del cliente. */
 export function homeStructure(state: MatchState, playerId: number): number {
   for (let s = 0; s < state.structures.length; s++) {
     const st = state.structures[s];
-    if (st.owner === playerId && st.kind === "habitat" && st.hp > 0) return s;
+    if (st && st.owner === playerId && st.kind === "habitat" && st.hp > 0) return s;
   }
   return -1;
 }

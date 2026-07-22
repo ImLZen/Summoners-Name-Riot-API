@@ -21,7 +21,26 @@
             <label for="botCountInput">Bots</label>
             <input id="botCountInput" type="number" min="1" max="15" value="7" />
           </div>
-          <button id="playButton" class="primary">Jugar</button>
+          <button id="playButton" class="primary">Jugar en solitario</button>
+
+          <div class="menu-multi">
+            <h2>Multijugador privado (2–16)</h2>
+            <div class="menu-row">
+              <label for="playerNameInput">Nombre</label>
+              <input id="playerNameInput" type="text" maxlength="24" placeholder="Colono" />
+            </div>
+            <div class="menu-row">
+              <label for="serverInput">Servidor</label>
+              <input id="serverInput" type="text" placeholder="ws://localhost:8790" />
+            </div>
+            <div class="menu-row multi-actions">
+              <button id="hostButton">Crear sala</button>
+              <input id="joinCodeInput" type="text" maxlength="5" placeholder="CÓDIGO" />
+              <button id="joinButton">Unirse</button>
+            </div>
+            <p id="multiError" class="multi-error hidden"></p>
+          </div>
+
           <div class="menu-help">
             <h2>Cómo se juega</h2>
             <ol>
@@ -33,6 +52,20 @@
             </ol>
           </div>
           <p class="version">v0.01 — alfa vertical slice · tiempo real · 1 humano + bots</p>
+        </div>
+      </section>
+
+      <!-- Lobby de sala privada -->
+      <section id="lobbyScreen" class="screen hidden">
+        <div class="menu-card">
+          <h1>Sala <span id="lobbyCode" class="accent"></span></h1>
+          <p class="tagline">Comparte el código con tu grupo. La partida empieza cuando el anfitrión pulse «Empezar».</p>
+          <ul id="lobbyPlayers"></ul>
+          <div class="menu-row">
+            <span id="lobbyStatus" class="lobby-status">Esperando jugadores…</span>
+          </div>
+          <button id="lobbyStartButton" class="primary hidden">Empezar partida</button>
+          <button id="lobbyLeaveButton">Salir de la sala</button>
         </div>
       </section>
 

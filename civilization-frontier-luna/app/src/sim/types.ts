@@ -62,6 +62,10 @@ export interface NetworkEdge {
   status: EdgeStatus;
   hp: number;
   maxHp: number;
+  /** tiles de los extremos: solo los rellena el espejo de red del cliente,
+   * que puede conocer una arista sin conocer sus estructuras */
+  aTile?: number;
+  bTile?: number;
 }
 
 export interface RoverOrder {
@@ -138,6 +142,8 @@ export interface MatchConfig {
   seed: number;
   cols: number;
   rows: number;
+  /** jugadores humanos (1 local, 2–16 en privado); ocupan los ids 0..humanCount-1 */
+  humanCount: number;
   botCount: number;
   targetMinutes: number;
   /** umbral 0..100 de control estratégico */

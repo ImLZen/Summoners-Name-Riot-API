@@ -47,7 +47,8 @@ export function computeVisibility(state: MatchState, playerId: number): Uint8Arr
     }
   }
   for (const st of state.structures) {
-    if (st.owner === playerId && st.hp > 0) markRadius(st.tile, STRUCTURES[st.kind].vision);
+    // El array es disperso en el espejo de red del cliente.
+    if (st && st.owner === playerId && st.hp > 0) markRadius(st.tile, STRUCTURES[st.kind].vision);
   }
   for (const rover of state.rovers) {
     if (rover.owner === playerId) {
