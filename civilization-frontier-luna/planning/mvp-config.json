@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "project": "Civilization Frontier: Luna",
+  "workingVersion": "0.00.2",
+  "targetVersion": "0.01",
+  "approvedAt": "2026-07-22",
+  "gameMode": "real_time_strategy",
+  "platform": "browser",
+  "primaryExperience": "lunar_logistics_survival",
+  "technology": {
+    "language": "TypeScript",
+    "renderer": "PixiJS/WebGL 2D",
+    "ui": "Lit + HTML + CSS",
+    "network": "WebSocket",
+    "server": "Node.js authoritative simulation",
+    "runtime3D": false,
+    "hexGridRequired": false,
+    "territoryStrategy": "preserve OpenFront continuous territory; allow sector/hex overlay"
+  },
+  "match": {
+    "targetMinutes": [
+      18,
+      28
+    ],
+    "localPlayers": {
+      "humans": 1,
+      "bots": 7
+    },
+    "privateHumansMax": 16,
+    "respawnsPerPlayer": 1,
+    "mapCount": 1
+  },
+  "resources": [
+    "energy",
+    "oxygen",
+    "minerals",
+    "water_ice"
+  ],
+  "structures": [
+    "habitat",
+    "generator",
+    "oxygen_node",
+    "mine",
+    "ice_extractor",
+    "control_point",
+    "lunar_port"
+  ],
+  "units": [
+    "explorer_rover",
+    "logistics_rover"
+  ],
+  "networks": [
+    "energy_line",
+    "oxygen_conduit",
+    "trade_route"
+  ],
+  "territoryStates": [
+    "neutral",
+    "owned",
+    "enemy",
+    "contested",
+    "fogged"
+  ],
+  "visualReferences": [
+    "docs/visual-references/01-production-style-guide.png",
+    "docs/visual-references/02-main-menu.png",
+    "docs/visual-references/03-early-game.png",
+    "docs/visual-references/04-mid-late-game.png",
+    "docs/visual-references/05-match-timeline.png"
+  ],
+  "explicitExclusions": [
+    "runtime_3d",
+    "turn_based_gameplay",
+    "commander_xp",
+    "persistent_inventory",
+    "payments",
+    "public_matchmaking",
+    "complex_tactical_units",
+    "mandatory_physical_hex_grid"
+  ],
+  "acceptance": {
+    "newPlayersLandingWithoutHelp": "4/5",
+    "newPlayersUnderstandNetworks": "4/5",
+    "immediateRematchRate": 0.6,
+    "targetFps": 60,
+    "minimumFps": 30,
+    "privatePlayerCount": 16,
+    "simulationDivergenceAllowed": false
+  }
+}

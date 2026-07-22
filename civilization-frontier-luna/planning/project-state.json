@@ -1,0 +1,51 @@
+{
+  "project": "Civilization Frontier: Luna",
+  "workingVersion": "0.00.2",
+  "targetVersion": "0.01",
+  "updated": "2026-07-22",
+  "currentGate": "B",
+  "approvedDecisions": [
+    "lunar_primary_mvp",
+    "four_lunar_resources",
+    "2d_production_visuals"
+  ],
+  "gates": [
+    {
+      "id": "A",
+      "name": "Lunar direction locked",
+      "status": "done"
+    },
+    {
+      "id": "B",
+      "name": "Package and upstream audit",
+      "status": "in_progress"
+    },
+    {
+      "id": "C",
+      "name": "Lunar greybox",
+      "status": "not_started"
+    },
+    {
+      "id": "D",
+      "name": "Visual vertical slice",
+      "status": "not_started"
+    },
+    {
+      "id": "E",
+      "name": "Private multiplayer alpha",
+      "status": "not_started"
+    },
+    {
+      "id": "F",
+      "name": "v0.01 accepted",
+      "status": "not_started"
+    }
+  ],
+  "nextIndependentTasks": [
+    "Validate project package",
+    "Materialize pinned OpenFront source",
+    "Create upstream code map",
+    "Benchmark upstream baseline",
+    "Create lunar greybox map specification"
+  ]
+}

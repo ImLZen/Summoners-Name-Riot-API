@@ -1,0 +1,257 @@
+/* Civilization Frontier: Luna — UI v0.01 (docs/05-visual-language.md) */
+:root {
+  --bg: #0b0e14;
+  --panel: #141a24;
+  --panel-2: #1b2330;
+  --text: #dbe4f0;
+  --muted: #8a97a8;
+  --accent: #e8c268;
+  --energy: #e8c268;
+  --oxygen: #6fa8e8;
+  --trade: #5fd6d0;
+  --danger: #d0716b;
+  --ok: #8fc18d;
+  --border: #2a3546;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.hidden { display: none !important; }
+.screen { position: absolute; inset: 0; }
+
+/* ---------- Menú ---------- */
+#menuScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(232, 194, 104, 0.08), transparent 45%),
+    radial-gradient(ellipse at 25% 80%, rgba(111, 168, 232, 0.07), transparent 50%),
+    var(--bg);
+  overflow-y: auto;
+}
+.menu-card {
+  max-width: 620px;
+  width: min(92vw, 620px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 34px;
+  margin: 24px 0;
+}
+.menu-card h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: 0.5px; }
+.accent { color: var(--accent); }
+.tagline { color: var(--muted); margin: 0 0 18px; }
+.menu-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.menu-row label { width: 70px; color: var(--muted); }
+.menu-row input {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  width: 160px;
+  font-size: 14px;
+}
+button {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.primary {
+  background: var(--accent);
+  color: #1a1508;
+  font-weight: 600;
+  border: none;
+  padding: 10px 22px;
+  margin-top: 8px;
+}
+button.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.menu-help { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 12px; }
+.menu-help h2 { font-size: 15px; margin: 0 0 8px; color: var(--accent); }
+.menu-help ol { margin: 0; padding-left: 20px; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.version { color: var(--muted); font-size: 12px; margin-top: 16px; }
+
+/* ---------- Partida ---------- */
+#gameScreen { display: flex; flex-direction: column; }
+#topBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  flex: 0 0 auto;
+}
+.res { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.res-icon { font-size: 15px; }
+.res-icon.energy { color: var(--energy); }
+.res-icon.oxygen { color: var(--oxygen); }
+.res-icon.minerals { color: #c9a27b; }
+.res-icon.ice { color: #a8d8e8; }
+.res-icon.pop { color: var(--ok); }
+.res-rate { font-size: 11px; color: var(--muted); min-width: 42px; }
+.res-rate.pos { color: var(--ok); }
+.res-rate.neg { color: var(--danger); }
+.res.wide { flex: 1; max-width: 260px; }
+.control-meter {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+#controlFill { height: 100%; width: 0%; background: var(--accent); transition: width 0.4s; }
+#controlThreshold { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--danger); }
+#clockBox { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+#mainArea { flex: 1; display: flex; min-height: 0; }
+aside {
+  width: 230px;
+  flex: 0 0 auto;
+  background: var(--panel);
+  padding: 10px;
+  overflow-y: auto;
+}
+#leftPanel { border-right: 1px solid var(--border); }
+#rightPanel { border-left: 1px solid var(--border); }
+aside h3 { margin: 4px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+
+#buildButtons, #modeButtons { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.tool-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  font-size: 13px;
+  padding: 7px 10px;
+}
+.tool-btn .cost { color: var(--muted); font-size: 11.5px; }
+.tool-btn.active { border-color: var(--accent); background: rgba(232, 194, 104, 0.12); }
+
+#selectionPanel {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+#selectionPanel h4 { margin: 0 0 6px; color: var(--accent); }
+#selectionPanel .warn { color: var(--danger); }
+#selectionPanel .good { color: var(--ok); }
+
+#canvasWrap { flex: 1; position: relative; min-width: 0; background: #05070b; }
+#gameCanvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; }
+
+#spawnPanel {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 26, 36, 0.94);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  width: 340px;
+  z-index: 5;
+}
+#spawnPanel h3 { margin: 0 0 4px; font-size: 16px; }
+#spawnPanel p { margin: 0 0 10px; color: var(--muted); font-size: 12.5px; }
+.indicator { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 13px; }
+.indicator span { width: 80px; }
+.indicator .bar { flex: 1; height: 9px; background: var(--panel-2); border-radius: 5px; overflow: hidden; }
+.indicator .bar > div { height: 100%; width: 0%; background: var(--accent); transition: width 0.15s; }
+#indRivals { background: var(--danger); }
+#indResources { background: var(--ok); }
+
+#alertBanner {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(208, 113, 107, 0.92);
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 6;
+}
+#alertBanner.info { background: rgba(232, 194, 104, 0.92); color: #1a1508; }
+
+#statusBadge {
+  position: absolute;
+  bottom: 34px;
+  left: 12px;
+  background: rgba(20, 26, 36, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  z-index: 4;
+  max-width: 60%;
+}
+#mapLegend {
+  position: absolute;
+  bottom: 6px;
+  left: 12px;
+  display: flex;
+  gap: 14px;
+  font-size: 11.5px;
+  color: var(--muted);
+  z-index: 4;
+}
+.leg { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+.leg.energy { background: var(--energy); }
+.leg.oxygen { background: var(--oxygen); height: 4px; }
+.leg.trade { background: repeating-linear-gradient(90deg, var(--trade) 0 4px, transparent 4px 7px); }
+.leg.deposit-min { background: #c9a27b; width: 8px; height: 8px; border-radius: 2px; }
+.leg.deposit-ice { background: #a8d8e8; width: 8px; height: 8px; border-radius: 50%; }
+
+#eventLog { list-style: none; margin: 0; padding: 0; font-size: 12.5px; }
+#eventLog li { padding: 5px 4px; border-bottom: 1px solid rgba(42, 53, 70, 0.6); line-height: 1.45; }
+#eventLog li time { color: var(--muted); margin-right: 6px; font-variant-numeric: tabular-nums; }
+#eventLog li.important { color: var(--accent); }
+
+/* ---------- Modal resumen ---------- */
+.modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 11, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+.modal-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 30px;
+  max-width: 680px;
+  width: min(94vw, 680px);
+  max-height: 86vh;
+  overflow-y: auto;
+}
+.modal-card h2 { margin: 0 0 14px; }
+#summaryTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+#summaryTable th, #summaryTable td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--border); }
+#summaryTable th:first-child, #summaryTable td:first-child { text-align: left; }
+#summaryTable tr.human { color: var(--accent); font-weight: 600; }
+.player-dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
