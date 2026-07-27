@@ -1,0 +1,23 @@
+{
+  "name": "civilization-frontier-luna",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Civilization Frontier: Luna — vertical slice v0.01 (RTS lunar en tiempo real para navegador)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "server": "tsx server/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.23.1",
+    "typescript": "^5.6.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4",
+    "ws": "^8.21.1"
+  }
+}

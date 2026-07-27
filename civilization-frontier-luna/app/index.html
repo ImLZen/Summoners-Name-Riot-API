@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civilization Frontier: Luna — v0.01</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌕</text></svg>" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Menú principal -->
+      <section id="menuScreen" class="screen">
+        <div class="menu-card">
+          <h1>Civilization Frontier: <span class="accent">Luna</span></h1>
+          <p class="tagline">Construye una red lunar que pueda sobrevivir; corta o protege las líneas que mantienen vivas las colonias.</p>
+          <div class="menu-row">
+            <label for="seedInput">Semilla</label>
+            <input id="seedInput" type="text" inputmode="numeric" placeholder="aleatoria" />
+          </div>
+          <div class="menu-row">
+            <label for="botCountInput">Bots</label>
+            <input id="botCountInput" type="number" min="1" max="15" value="7" />
+          </div>
+          <button id="playButton" class="primary">Jugar en solitario</button>
+
+          <div class="menu-multi">
+            <h2>Multijugador privado (2–16)</h2>
+            <div class="menu-row">
+              <label for="playerNameInput">Nombre</label>
+              <input id="playerNameInput" type="text" maxlength="24" placeholder="Colono" />
+            </div>
+            <div class="menu-row">
+              <label for="serverInput">Servidor</label>
+              <input id="serverInput" type="text" placeholder="ws://localhost:8790" />
+            </div>
+            <div class="menu-row multi-actions">
+              <button id="hostButton">Crear sala</button>
+              <input id="joinCodeInput" type="text" maxlength="5" placeholder="CÓDIGO" />
+              <button id="joinButton">Unirse</button>
+            </div>
+            <p id="multiError" class="multi-error hidden"></p>
+          </div>
+
+          <div class="menu-help">
+            <h2>Cómo se juega</h2>
+            <ol>
+              <li>Elige un punto de alunizaje: verás seguridad, recursos y rivales aproximados.</li>
+              <li>Construye <strong>generador</strong> y <strong>nodo de oxígeno</strong>, y conéctalos al hábitat antes de agotar las reservas.</li>
+              <li>Explora con el rover, expande territorio y extrae minerales y hielo.</li>
+              <li>Las redes se cortan: protege las tuyas, sabotea las enemigas.</li>
+              <li>Gana manteniendo el control estratégico. Si caes pronto, puedes realunizar una vez.</li>
+            </ol>
+          </div>
+          <p class="version">v0.01 — alfa vertical slice · tiempo real · 1 humano + bots</p>
+        </div>
+      </section>
+
+      <!-- Lobby de sala privada -->
+      <section id="lobbyScreen" class="screen hidden">
+        <div class="menu-card">
+          <h1>Sala <span id="lobbyCode" class="accent"></span></h1>
+          <p class="tagline">Comparte el código con tu grupo. La partida empieza cuando el anfitrión pulse «Empezar».</p>
+          <ul id="lobbyPlayers"></ul>
+          <div class="menu-row">
+            <span id="lobbyStatus" class="lobby-status">Esperando jugadores…</span>
+          </div>
+          <button id="lobbyStartButton" class="primary hidden">Empezar partida</button>
+          <button id="lobbyLeaveButton">Salir de la sala</button>
+        </div>
+      </section>
+
+      <!-- Partida -->
+      <section id="gameScreen" class="screen hidden">
+        <header id="topBar">
+          <div class="res" id="resEnergy" title="Energía: alimenta estructuras y expansión">
+            <span class="res-icon energy">⚡</span><span class="res-val">0</span><span class="res-rate"></span>
+          </div>
+          <div class="res" id="resOxygen" title="Oxígeno: sostiene a la población">
+            <span class="res-icon oxygen">◍</span><span class="res-val">0</span><span class="res-rate"></span>
+          </div>
+          <div class="res" id="resMinerals" title="Minerales: construcción y reparación">
+            <span class="res-icon minerals">▲</span><span class="res-val">0</span><span class="res-rate"></span>
+          </div>
+          <div class="res" id="resIce" title="Agua/Hielo: insumo de oxígeno">
+            <span class="res-icon ice">❄</span><span class="res-val">0</span><span class="res-rate"></span>
+          </div>
+          <div class="res" id="resPop" title="Población"><span class="res-icon pop">⌂</span><span class="res-val">0</span></div>
+          <div class="res wide" id="controlBox" title="Control estratégico: territorio sostenible, puntos de control y puertos">
+            <span>Control</span>
+            <div class="control-meter"><div id="controlFill"></div><div id="controlThreshold"></div></div>
+            <span id="controlValue">0%</span>
+          </div>
+          <div class="res" id="clockBox"><span id="clockValue">00:00</span></div>
+          <button id="pauseButton" title="Pausa">⏸</button>
+          <button id="speedButton" title="Velocidad">×1</button>
+        </header>
+
+        <div id="mainArea">
+          <aside id="leftPanel">
+            <h3>Construir</h3>
+            <div id="buildButtons"></div>
+            <h3>Acciones</h3>
+            <div id="modeButtons"></div>
+            <div id="selectionPanel" class="hidden"></div>
+          </aside>
+
+          <div id="canvasWrap">
+            <canvas id="gameCanvas"></canvas>
+            <div id="spawnPanel" class="hidden">
+              <h3 id="spawnTitle">Elige tu punto de alunizaje</h3>
+              <p id="spawnHint">Pasa el ratón por el mapa. Los indicadores son estimaciones: la niebla oculta los detalles.</p>
+              <div class="indicator"><span>Seguridad</span><div class="bar"><div id="indSafety"></div></div></div>
+              <div class="indicator"><span>Recursos</span><div class="bar"><div id="indResources"></div></div></div>
+              <div class="indicator"><span>Rivales</span><div class="bar"><div id="indRivals"></div></div></div>
+              <button id="confirmSpawnButton" class="primary" disabled>Alunizar aquí</button>
+            </div>
+            <div id="alertBanner" class="hidden"></div>
+            <div id="statusBadge"></div>
+            <div id="mapLegend">
+              <span><i class="leg energy"></i> Energía</span>
+              <span><i class="leg oxygen"></i> Oxígeno</span>
+              <span><i class="leg trade"></i> Comercio</span>
+              <span><i class="leg deposit-min"></i> Minerales</span>
+              <span><i class="leg deposit-ice"></i> Hielo</span>
+            </div>
+          </div>
+
+          <aside id="rightPanel">
+            <h3>Crónica</h3>
+            <ul id="eventLog"></ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Resumen final -->
+      <div id="summaryModal" class="modal hidden">
+        <div class="modal-card">
+          <h2 id="summaryTitle">Fin de la partida</h2>
+          <table id="summaryTable"></table>
+          <button id="rematchButton" class="primary">Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

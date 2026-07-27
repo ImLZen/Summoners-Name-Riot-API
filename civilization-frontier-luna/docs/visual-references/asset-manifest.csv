@@ -1,0 +1,6 @@
+file,status,approved_use,runtime_ready,notes
+01-production-style-guide.png,approved concept,visual contract,false,Recreate as individual production assets
+02-main-menu.png,approved concept,screen hierarchy,false,Remove XP and persistent progression
+03-early-game.png,approved concept,early gameplay hierarchy,false,Replace turn labels with real-time labels
+04-mid-late-game.png,approved concept,maximum map density,false,Aggregate assets at distant zoom
+05-match-timeline.png,approved concept,match pacing and QA,false,Not required as an in-game screen

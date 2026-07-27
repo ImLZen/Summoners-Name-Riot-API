@@ -1,0 +1,25 @@
+id,gate,priority,status,title,acceptance
+CF-001,A,P0,Done,Aprobar visión lunar,Visión y pitch aprobados
+CF-002,A,P0,Done,Aprobar dirección visual 2D,Referencias y límites técnicos documentados
+CF-003,A,P0,Done,Congelar recursos MVP,Cuatro recursos definidos
+CF-004,B,P0,Done,Crear paquete multiagente,PROJECT AGENTS CLAUDE y config presentes
+CF-005,B,P0,Done,Integrar referencias visuales,Cinco imágenes y contratos documentados
+CF-006,B,P0,Blocked,Materializar OpenFront,Fuente fijada disponible localmente con commit registrado
+CF-007,B,P0,Todo,Ejecutar baseline upstream,Dev tests lint y perf registrados
+CF-008,B,P0,Todo,Mapear arquitectura upstream,Territorio mapa workers bots render y red documentados
+CF-009,C,P0,Todo,Crear modo lunar greybox,Partida lunar carga sin romper modo original
+CF-010,C,P0,Todo,Crear mapa lunar de prueba,Mapa equilibrado y determinista cargable
+CF-011,C,P0,Todo,Integrar spawn lunar,Servidor valida punto de alunizaje
+CF-012,C,P0,Todo,Integrar cuatro recursos,Producción y consumo autoritativos
+CF-013,C,P0,Todo,Integrar grafo de redes,Energía y oxígeno se conectan y cortan
+CF-014,C,P0,Todo,Adaptar bots lunares,IA explora expande conecta y ataca
+CF-015,C,P0,Todo,Integrar conflicto de infraestructura,Daño y recuperación son comprensibles
+CF-016,C,P0,Todo,Integrar evacuación,Un nuevo alunizaje protegido funciona
+CF-017,D,P0,Todo,Implementar mapa visual,Textura fronteras niebla y rutas aprobadas
+CF-018,D,P0,Todo,Producir sprites MVP,Estructuras y rovers legibles a tres zooms
+CF-019,D,P0,Todo,Implementar flujo UI,Menú spawn HUD panel y alertas
+CF-020,D,P1,Todo,Implementar resumen de partida,Cronología y causa de victoria legibles
+CF-021,E,P0,Todo,Multijugador privado,2-16 humanos completan partida
+CF-022,E,P0,Todo,Benchmark de capacidad,Coste y capacidad medidos
+CF-023,F,P0,Todo,Aceptar usabilidad,4 de 5 completan onboarding sin ayuda
+CF-024,F,P0,Todo,Aceptar retención,60 por ciento inicia rematch

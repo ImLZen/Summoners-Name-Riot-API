@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Civilization Frontier — Mechanics Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">MECHANICS LAB · v0.00.1</div>
+        <h1>Civilization Frontier</h1>
+      </div>
+      <div class="top-actions">
+        <button id="speedButton" class="ghost">Speed ×1</button>
+        <button id="pauseButton" class="ghost">Pause</button>
+        <button id="resetButton" class="ghost">Reset</button>
+      </div>
+    </header>
+
+    <section class="game-layout">
+      <aside class="panel left-panel">
+        <h2>Your civilization</h2>
+        <div id="statusBadge" class="status-badge">Choose a founding tile</div>
+        <dl class="stats">
+          <div><dt>Era</dt><dd id="eraValue">Nomadic</dd></div>
+          <div><dt>Population</dt><dd id="populationValue">0</dd></div>
+          <div><dt>Territory</dt><dd id="territoryValue">0</dd></div>
+          <div><dt>Score</dt><dd id="scoreValue">0</dd></div>
+        </dl>
+
+        <h3>Resources</h3>
+        <div class="resource"><span>Food</span><strong id="foodValue">0</strong></div>
+        <div class="meter"><i id="foodMeter"></i></div>
+        <div class="resource"><span>Materials</span><strong id="materialsValue">0</strong></div>
+        <div class="meter"><i id="materialsMeter"></i></div>
+        <div class="resource"><span>Knowledge</span><strong id="knowledgeValue">0</strong></div>
+        <div class="meter"><i id="knowledgeMeter"></i></div>
+
+        <h3>Actions</h3>
+        <div class="action-grid">
+          <button id="settlementButton" disabled>Build settlement<br><small>45 materials</small></button>
+          <button id="farmButton" disabled>Build farm<br><small>35 materials</small></button>
+          <button id="academyButton" disabled>Build academy<br><small>70 materials</small></button>
+        </div>
+        <button id="startButton" class="primary" disabled>Begin history</button>
+        <p id="hintText" class="hint">Click a bright land tile. Crowded areas create faster conflict; quiet edges offer safer growth.</p>
+      </aside>
+
+      <section class="map-wrap">
+        <canvas id="gameCanvas" width="1120" height="680" aria-label="Strategy map"></canvas>
+        <div id="mapToast" class="map-toast hidden"></div>
+        <div class="legend">
+          <span><i class="legend-open"></i>Open land</span>
+          <span><i class="legend-closed"></i>Future region</span>
+          <span><i class="legend-fog"></i>Fog</span>
+        </div>
+      </section>
+
+      <aside class="panel right-panel">
+        <h2>World history</h2>
+        <div class="world-phase">
+          <span>World phase</span>
+          <strong id="worldPhaseValue">Foundations</strong>
+        </div>
+        <div class="world-progress"><i id="worldProgress"></i></div>
+        <p id="worldDescription">The central world is open. Frontier regions will become available as the match develops.</p>
+
+        <h3>Chronicle</h3>
+        <ol id="eventLog" class="event-log"></ol>
+
+        <div class="design-note">
+          <strong>Prototype purpose</strong>
+          <p>Test whether spawn freedom, eras, fog, and a single second life create a clearer and more memorable match.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
